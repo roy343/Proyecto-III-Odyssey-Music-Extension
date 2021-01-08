@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // Settings
-app.set('post',process.env.PORT || 3000)
+app.set('port',process.env.PORT || 3000)
 // Middleware
 app.use(express.json());
 // Routes

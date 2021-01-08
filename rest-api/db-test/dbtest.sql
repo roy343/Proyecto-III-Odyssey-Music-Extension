@@ -9,3 +9,10 @@ CREATE TABLE persona(
     );
     
     DESCRIBE persona;
+    
+    INSERT INTO persona values
+    (1, 'TEST SUBJECT 1'),
+    (2, 'TEST SUBJECT 2'),
+    (3, 'TEST SUBJECT 3');
+    
+    SELECT * FROM persona;
