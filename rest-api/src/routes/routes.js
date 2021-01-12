@@ -4,7 +4,7 @@ const mySQLConnection = require('../db')
 
 
 router.get('/users', (req,res)=>{
-    mySQLConnection.query('SELECT * FROM persona',(err,rows,flieds) =>{
+    mySQLConnection.query('SELECT * FROM cancion',(err,rows,flieds) =>{
         if(!err){
             res.json(rows);
         } else{
