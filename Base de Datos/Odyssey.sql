@@ -60,3 +60,66 @@ INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Get It Hot");
 INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"If You Want Blood (You've Got It)");
 INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Love Hungry Man");
 INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Night Prowler");
+
+-- Obtiene todas las canciones (Nombre, Album, Artista)
+CREATE PROCEDURE GetAll ()
+	SELECT C.nombre_cancion, A.nombre_album, Ar.nombre_artista
+    FROM cancion AS C, album AS A, artista AS Ar
+    WHERE C.id_album = A.id_album AND A.id_artista = Ar.id_artista;
+
+-- Obtiene informacion segun el dato ingresado (Revisa Nombre Cancion, Artista y Letra Cancion)
+CREATE PROCEDURE GetCancion (dato varchar(50))
+	SELECT C.nombre_cancion, A.nombre_album, Ar.nombre_artista
+    FROM cancion AS C, album AS A, artista AS Ar
+    WHERE C.id_album = A.id_album AND A.id_artista = Ar.id_artista AND 
+    (C.nombre_cancion LIKE Concat('%',dato,'%') OR 
+    Ar.nombre_artista LIKE Concat('%',dato,'%') OR
+    C.letra LIKE Concat('%',dato,'%'));
+
+-- Elimina una cancion segun la data ingresada
+CREATE PROCEDURE deleteSong (dato varchar(50))
+	DELETE FROM cancion 
+    WHERE nombre_cancion = dato AND id_album > 0;
+
+-- Revisa si existe el artista. Si no existe lo crea
+DELIMITER //
+CREATE PROCEDURE checkArtista (param1 varchar(50), OUT param2 INT)
+BEGIN
+    IF (SELECT COUNT(*) FROM artista AS Ar WHERE ar.nombre_artista = param1) > 0 THEN
+        SET param2 = (SELECT ar.id_artista FROM artista AS Ar WHERE ar.nombre_artista = param1);
+    ELSE
+        INSERT INTO artista (nombre_artista) VALUES (param1);
+        SET param2 = (SELECT ar.id_artista FROM artista AS Ar WHERE ar.nombre_artista = param1);
+    END IF;
+END //
+
+-- Revisa si existe ese album de ese artista. Si no existe lo crea
+DELIMITER //
+CREATE PROCEDURE checkAlbum (param_id INT, param_nombre varchar(50), param_image varchar(100), OUT outparamalbum INT)
+BEGIN
+    IF (SELECT COUNT(*) FROM album AS A WHERE a.nombre_album = param_nombre AND a.id_artista = param_id) > 0 THEN
+        SET outparamalbum = (SELECT id_album FROM album AS A WHERE a.nombre_album = param_nombre AND a.id_artista = param_id);
+    ELSE
+        INSERT INTO album (id_artista, nombre_album, imagen) VALUES (param_id, param_nombre, param_image);
+        SET outparamalbum = (SELECT id_album FROM album AS A WHERE a.nombre_album = param_nombre AND a.id_artista = param_id);
+    END IF;
+END //
+
+-- Revisa si existe esa cancion de ese album. Si no existe lo crea
+DELIMITER //
+CREATE PROCEDURE checkCancion (param_id INT, param_nombre varchar(50), param_letra varchar(500))
+BEGIN
+    IF (SELECT COUNT(*) FROM cancion AS C WHERE c.nombre_cancion = param_nombre AND c.id_album = param_id) = 0 THEN
+        INSERT INTO cancion (id_album, nombre_cancion, letra) VALUES (param_id, param_nombre, param_letra);
+    END IF;
+END //
+
+-- call odyssey.checks('AC/DC', 'Highway to Hell', '', 'Get It Hot', '');
+-- Realiza todos los checks de una forma mas facil
+DELIMITER //
+CREATE PROCEDURE checks (p_artista varchar(50),p_album varchar(50),p_imagen varchar(100),p_cancion varchar(50),p_letra varchar(500))
+BEGIN
+	call odyssey.checkArtista(p_artista, @param2);
+	call odyssey.checkAlbum(@param2, p_album, p_imagen, @outparamalbum);
+    call odyssey.checkCancion(@outparamalbum, p_cancion, p_letra);
+END //
