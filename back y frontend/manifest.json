@@ -1,0 +1,20 @@
+{
+    "name": "Odissey Music Extension",
+    "version": "1.0",
+    "description": "A Spotify music extension for chrome users",
+    "manifest_version": 2,
+    "background": {
+        "page": "html/background.html",
+        "persistent": false
+    },
+    "icons": {
+        "128": "images/odyssey-logo128.png",
+        "48": "images/odyssey-logo48.png",
+        "16": "images/odyssey-logo16.png"
+    },
+    "omnibox": { "keyword": "odyssey" },
+    "browser_action": {
+        "default_icon": "images/odyssey-logo16.png",
+        "default_popup": "html/popup.html"
+    }
+}
