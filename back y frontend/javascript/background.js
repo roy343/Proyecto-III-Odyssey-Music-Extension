@@ -3,7 +3,7 @@
  * @param {object} data received object from server
  */
 function suggestionListAux(data) {
-    let songStr = "Song: " + data.track_name;
+    let songStr = "Song: " + data.nombre_cancion;
     let artistStr = "     /     Artist: " + data.artist;
     return songStr + artistStr;
 }
