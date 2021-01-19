@@ -22,6 +22,7 @@ router.get('/users/:id', (req, res)=>{
             res.json(rows);
         } else{
             console.log(err);
+            console.log(id);
         }
     })
 });
@@ -66,6 +67,19 @@ router.delete('/users/:id', (req,res)=>{
 
 //Rutas para las canciones
 
+// router.get('/songs', (req,res)=>{
+//     const queryGetAll = `
+//         Call GetAll();
+//     `;
+//     mySQLConnection.query(queryGetAll,(err,rows,flieds) =>{
+//         if(!err){
+//             res.json(rows);
+//         } else{
+//             console.log(err);
+//         }
+//     })
+// })
+
 router.get('/songs', (req,res)=>{
     mySQLConnection.query('SELECT * FROM cancion',(err,rows,flieds) =>{
         if(!err){
@@ -86,4 +100,20 @@ router.delete('/songs/:id', (req,res)=>{
         }
     })
 })
+
+
+router.get('/songs/:dato', (req, res)=>{
+    const { dato } = req.params;
+        const querySearch = `
+        Call GetCancion (?);
+    `;
+    mySQLConnection.query(querySearch, [dato], (err,rows,fields) =>{
+        if(!err){
+            res.json(rows);
+        } else{
+            console.log(err);
+        }
+
+    })
+});
 module.exports = router;
