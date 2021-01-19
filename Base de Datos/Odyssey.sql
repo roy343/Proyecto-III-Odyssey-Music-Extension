@@ -25,6 +25,16 @@ CREATE TABLE cancion (
     FOREIGN KEY (id_album) REFERENCES album(id_album)
 );
 
+create table MusicData(
+trackid int,
+title varchar(60),
+artist varchar(30),
+album varchar(20),
+genre varchar(60),
+lenght varchar(10))
+
+Select * from MusicData;
+
 -- Artistas
 -- Metallica   -> 1
 -- AC/DC       -> 2
