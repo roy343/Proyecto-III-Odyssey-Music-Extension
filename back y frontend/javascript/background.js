@@ -1,103 +1,113 @@
 /**
- * Creates a text for suggestions on omnibox
- * @param {object} data received object from server
+ * Gives a suggestions list to the user
+ * @param {*} data Songs received from the server
+ * @param {number} CANT_SUGGESTS  Number of songs to be shown
  */
-function suggestionListAux(data) {
-    let songStr = "Song: " + data.nombre_cancion;
-    let artistStr = "     /     Artist: " + data.artist;
-    return songStr + artistStr;
-}
-
-/**
- * Returns the omnibox's suggestions (a list of objects)
- * @param {*} data information received from the request
- * @param {number} amount ammount of suggestions that will be displayed
- */
-function suggestionList(data, amount) {
+function suggestionList(data, CANT_SUGGESTS) {
     var list = [];
-    for (i = 0; i < amount; i++) {
-        var object = { content: data[i].id, description: suggestionListAux(data[i]) };
+    for (i = 0; i < CANT_SUGGESTS; i++) {
+        var object = {
+            content: data[i].id,
+            description: suggestionListAux(data[i])
+        };
         list.push(object);
     }
-    suggestions = list;
     return list;
 }
 
-const TIME_BETWEEN_REQUESTS = 500;
-const AMOUNT_OF_SUGGESTIONS = 5;
-const ALL_SUGGESTIONS = 9;
+/**
+ * Creates text to be shown in the omnibox's suggestions
+ * @param {object} data 
+ */
+function suggestionListAux(data) {
+    let SongName = "Song: " + data.track_name;
+    let ArtistName = "     /     Artist: " + data.artist;
+    return SongName + ArtistName;
+}
 
-var songList = []
-var currentSong = 0;
-var hasAllKeyword = false;
-var lastRequestTime = -TIME_BETWEEN_REQUESTS;
-var actualRequestTime;
+const SUGGESTIONS_CUANTITY = 5; // Ammount of suggestions
+const ALL_SUGGEST = 9; // Max suggestions
+const TIME_FOR_EACH_REQUEST = 1000; // Wait time for each request
 
-chrome.omnibox.setDefaultSuggestion({ description: "Search a song by its name, artist or lyrics" });
+var songList = []; // List of songs
+var currentSongIndex = 0; // Index for the songs
+var allKeywords = false; // If the input has all the keywords
+var lastRequest = new Date().getTime() - TIME_FOR_EACH_REQUEST;
+var requestTime; // Time that took the request
 
-// Omnibox listener, used everytime the omnibox's text is updated
+
+/**
+ * Default suggestion
+ */
+chrome.omnibox.setDefaultSuggestion({
+    description: "Search songs by name, artist or lyric"
+});
+
+/**
+ * An omnibox listener, used everytime the user inserts a character
+ */
 chrome.omnibox.onInputChanged.addListener(
     function(text, suggest) {
-
-        // Constructing the get request text
-        actualRequestTime = new Date().getTime();
-        if (text == "*") {
-            text = "";
+        requestTime = new Date().getTime();
+        if (text == "*ALL") {
+            console.log("Getting all songs...");
         }
-        var apiCall;
-        if (text.length > 30) {
-            apiCall = 'https://localhost:3000/songs' // Search by lyric
-        } else {
-            apiCall = 'https://localhost:3000/songs' // Search by user input
-        }
-        if (actualRequestTime - lastRequestTime > TIME_BETWEEN_REQUESTS) {
-            lastRequestTime = actualRequestTime;
+        var apiCall = 'http://localhost:3000/songs';
+        if (requestTime - lastRequest >= TIME_FOR_EACH_REQUEST) {
+            lastRequest = requestTime;
             fetch(apiCall).then(function(res) {
-                // If the server is down
+                // Check if the server is down
                 if (res.status !== 200) {
                     suggest([
-                        { content: "None", description: "Something went wrong" }
+                        { content: "None", description: "Server is down" }
                     ])
                 }
-                // Add the sugestions given by the server
+
+                // Adds the suggestion
                 res.json().then(function(data) {
-                    if (text == "") {
-                        list = suggestionList(data, ALL_SUGGESTIONS);
+                    if (text == "*ALL") {
+                        list = suggestionList(data, ALL_SUGGEST);
                     } else {
-                        list = suggestionList(data, AMOUNT_OF_SUGGESTIONS);
+                        apiCall = 'http://localhost:3000/songs/' + text;
+                        list = suggestionList(data, SUGGESTIONS_CUANTITY);
                     }
                     suggest(list);
                 }).catch(function(err) {
-                    suggest([{ content: 'Error', description: 'There was a problem loading the server' }]);
-                });
-            })
+                    suggest([{ contet: 'Error', description: 'Problem loading server information...' }]);
+                })
+            });
         } else {
             suggest(suggestions);
         }
-    });
+        console.log(text);
+    }
+);
 
-// This event is fired with the user accepts the input in the omnibox.
+/**
+ * An omnibox listener, uses the Spotify's player media
+ */
 chrome.omnibox.onInputEntered.addListener(
     function(text) {
+        console.log(text);
         songList.push('https://open.spotify.com/embed/track/' + text);
-
-    });
+    }
+);
 
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     if (songList.length == 0) {
         console.log("Empty list");
-        response(["Empty List", currentSong + 1, songList.length]);
+        response(["Empty List", currentSongIndex + 1, songList.length]);
     } else {
-        if (msg.name == "Next Song" & currentSong + 1 < songList.length) {
-            currentSong += 1;
-            response([songList[currentSong], currentSong + 1, songList.length]);
-        } else if (msg.name == "Previous Song" & currentSong !== 0) {
-            currentSong -= 1;
-            response([songList[currentSong], currentSong + 1, songList.length]);
+        if (msg.name == "Next Song" & currentSongIndex + 1 < songList.length) {
+            currentSongIndex += 1;
+            response([songList[currentSongIndex], currentSongIndex + 1, songList.length]);
+        } else if (msg.name == "Previous Song" & currentSongIndex !== 0) {
+            currentSongIndex -= 1;
+            response([songList[currentSongIndex], currentSongIndex + 1, songList.length]);
         } else if (msg.name == "Current Song") {
-            response([songList[currentSong], currentSong + 1, songList.length]);
+            response([songList[currentSongIndex], currentSongIndex + 1, songList.length]);
         } else {
-            response(["No Movement", currentSong + 1, songList.length]);
+            response(["No Movement", currentSongIndex + 1, songList.length]);
         }
     }
 });
