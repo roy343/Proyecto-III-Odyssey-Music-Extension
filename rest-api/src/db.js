@@ -7,11 +7,11 @@ const mySQLConnection = mysql.createConnection({
     database: 'Odyssey'
 });
 
-mySQLConnection.connect(function(err){
-    if(err){
+mySQLConnection.connect(function(err) {
+    if (err) {
         console.log(err);
         return;
-    } else{
+    } else {
         console.log('Db is connected');
     }
 });

@@ -1,3 +1,5 @@
+var suggestions = [];
+
 /**
  * Gives a suggestions list to the user
  * @param {*} data Songs received from the server
@@ -7,11 +9,12 @@ function suggestionList(data, CANT_SUGGESTS) {
     var list = [];
     for (i = 0; i < CANT_SUGGESTS; i++) {
         var object = {
-            content: data[i].id,
+            content: data[i].trackid,
             description: suggestionListAux(data[i])
         };
         list.push(object);
     }
+    suggestions = list;
     return list;
 }
 
@@ -20,7 +23,7 @@ function suggestionList(data, CANT_SUGGESTS) {
  * @param {object} data 
  */
 function suggestionListAux(data) {
-    let SongName = "Song: " + data.track_name;
+    let SongName = "Song: " + data.title;
     let ArtistName = "     /     Artist: " + data.artist;
     return SongName + ArtistName;
 }
@@ -73,7 +76,7 @@ chrome.omnibox.onInputChanged.addListener(
                     }
                     suggest(list);
                 }).catch(function(err) {
-                    suggest([{ contet: 'Error', description: 'Problem loading server information...' }]);
+                    suggest([{ content: 'Error', description: 'Problem loading server information...' }]);
                 })
             });
         } else {
