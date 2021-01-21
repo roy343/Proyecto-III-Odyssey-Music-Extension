@@ -12,8 +12,15 @@ lenght varchar(10))
 
 Select * from MusicData;
 
+create table Users(
+Userid int,
+UserName varchar(60)
+)
+
+Select * from Users;
+
 -- Obtiene todas las canciones (Nombre, Album, Artista)
-CREATE PROCEDURE GetAll ()
+CREATE PROCEDURE GetAll()
 	SELECT M.trackid, M.title, M.artist, M.album, M.genre, M.lenght
     FROM MusicData AS M;
     
@@ -33,10 +40,28 @@ CREATE PROCEDURE deleteSong (dato varchar(50))
     WHERE title = dato AND trackid > 0;
     
     
+CREATE PROCEDURE GetUsers()
+    SELECT U.Userid, U.UserName
+    FROM Users AS U; 
+
+CREATE PROCEDURE GetSingleUser (dato int)
+	SELECT U.Userid, U.UserName
+    FROM Users AS U
+    WHERE (U.Userid LIKE Concat('%',dato,'%'));
     
+CREATE PROCEDURE deleteUser (dato int)
+	DELETE FROM Users
+    WHERE Userid = dato AND Userid > 0;
     
-    
-    
+
+
+
+
+
+
+
+
+
 
 -- Revisa si existe el artista. Si no existe lo crea
 DELIMITER //
