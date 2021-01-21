@@ -67,21 +67,11 @@ router.delete('/users/:id', (req,res)=>{
 
 //Rutas para las canciones
 
-// router.get('/songs', (req,res)=>{
-//     const queryGetAll = `
-//         Call GetAll();
-//     `;
-//     mySQLConnection.query(queryGetAll,(err,rows,flieds) =>{
-//         if(!err){
-//             res.json(rows);
-//         } else{
-//             console.log(err);
-//         }
-//     })
-// })
-
 router.get('/songs', (req,res)=>{
-    mySQLConnection.query('SELECT * FROM cancion',(err,rows,flieds) =>{
+    const queryGetAll = `
+        Call GetAll();
+    `;
+    mySQLConnection.query(queryGetAll,(err,rows,flieds) =>{
         if(!err){
             res.json(rows);
         } else{
@@ -90,9 +80,19 @@ router.get('/songs', (req,res)=>{
     })
 })
 
+// router.get('/songs', (req,res)=>{
+//     mySQLConnection.query('SELECT * FROM MusicData',(err,rows,flieds) =>{
+//         if(!err){
+//             res.json(rows);
+//         } else{
+//             console.log(err);
+//         }
+//     })
+// })
+
 router.delete('/songs/:id', (req,res)=>{
     const { id } = req.params;
-    mySQLConnection.query('DELETE FROM cancion WHERE id = ?',[id],(err, rows, fields)=>{
+    mySQLConnection.query('DELETE FROM MusicData WHERE trackid = ?',[id],(err, rows, fields)=>{
         if(!err){
             res.json({status: 'User deleted'});
         } else {

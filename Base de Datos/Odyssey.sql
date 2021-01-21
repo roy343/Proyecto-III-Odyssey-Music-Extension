@@ -2,29 +2,6 @@ CREATE DATABASE Odyssey;
 
 USE Odyssey;
 
-CREATE TABLE artista (
-	id_artista INT NOT NULL AUTO_INCREMENT,
-	nombre_artista VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_artista)
-);
-
-CREATE TABLE album (
-	id_album INT NOT NULL AUTO_INCREMENT,
-	id_artista INT NOT NULL,
-	nombre_album VARCHAR(50),
-	imagen VARCHAR(100),
-    PRIMARY KEY (id_album),
-    FOREIGN KEY (id_artista) REFERENCES artista(id_artista)
-);
-
-CREATE TABLE cancion (
-	id_album INT NOT NULL,
-	nombre_cancion VARCHAR(50) NOT NULL,
-	letra VARCHAR(500),
-    PRIMARY KEY (id_album, nombre_cancion),
-    FOREIGN KEY (id_album) REFERENCES album(id_album)
-);
-
 create table MusicData(
 trackid int,
 title varchar(60),
@@ -35,61 +12,56 @@ lenght varchar(10))
 
 Select * from MusicData;
 
--- Artistas
--- Metallica   -> 1
--- AC/DC       -> 2
-INSERT INTO artista (nombre_artista) VALUES ("Metallica");
-INSERT INTO artista (nombre_artista) VALUES ("AC/DC");
+create table Users(
+Userid int,
+UserName varchar(60)
+)
 
--- Albumes
--- Death Magnetic   -> 1
--- Highway to Hell  -> 2
-INSERT INTO album (id_artista, nombre_album) VALUES (1,"Death Magnetic");
-INSERT INTO album (id_artista, nombre_album) VALUES (2,"Highway to Hell");
-
--- Canciones del album 1
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"That Was Just Your Life");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"The End of the Line");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"Broken, Beat & Scarred");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"The Day That Never Comes");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"All Nightmare Long");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"Cyanide");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"The Unforgiven III");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"The Judas Kiss");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"Suicide & Redemption");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (1,"My Apocalypse");
-
--- Canciones del album 2
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Highway to Hell");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Girls Got Rhythm");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Walk All Over You");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Touch Too Much");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Beating Around the Bush");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Shot Down in Flames");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Get It Hot");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"If You Want Blood (You've Got It)");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Love Hungry Man");
-INSERT INTO cancion (id_album, nombre_cancion) VALUES (2,"Night Prowler");
+Select * from Users;
 
 -- Obtiene todas las canciones (Nombre, Album, Artista)
-CREATE PROCEDURE GetAll ()
-	SELECT C.nombre_cancion, A.nombre_album, Ar.nombre_artista
-    FROM cancion AS C, album AS A, artista AS Ar
-    WHERE C.id_album = A.id_album AND A.id_artista = Ar.id_artista;
+CREATE PROCEDURE GetAll()
+	SELECT M.trackid, M.title, M.artist, M.album, M.genre, M.lenght
+    FROM MusicData AS M;
+    
+    -- WHERE M.id_album = A.id_album AND A.id_artista = Ar.id_artista;
 
--- Obtiene informacion segun el dato ingresado (Revisa Nombre Cancion, Artista y Letra Cancion)
+-- Obtiene informacion segun el dato ingresado (Revisa Nombre Cancion, Artista y Album)
 CREATE PROCEDURE GetCancion (dato varchar(50))
-	SELECT C.nombre_cancion, A.nombre_album, Ar.nombre_artista
-    FROM cancion AS C, album AS A, artista AS Ar
-    WHERE C.id_album = A.id_album AND A.id_artista = Ar.id_artista AND 
-    (C.nombre_cancion LIKE Concat('%',dato,'%') OR 
-    Ar.nombre_artista LIKE Concat('%',dato,'%') OR
-    C.letra LIKE Concat('%',dato,'%'));
+	SELECT M.title, M.album, M.artist
+    FROM MusicData AS M
+    WHERE (M.title LIKE Concat('%',dato,'%') OR 
+    M.artist LIKE Concat('%',dato,'%') OR
+    M.album LIKE Concat('%',dato,'%'));
 
 -- Elimina una cancion segun la data ingresada
 CREATE PROCEDURE deleteSong (dato varchar(50))
-	DELETE FROM cancion 
-    WHERE nombre_cancion = dato AND id_album > 0;
+	DELETE FROM MusicData
+    WHERE title = dato AND trackid > 0;
+    
+    
+CREATE PROCEDURE GetUsers()
+    SELECT U.Userid, U.UserName
+    FROM Users AS U; 
+
+CREATE PROCEDURE GetSingleUser (dato int)
+	SELECT U.Userid, U.UserName
+    FROM Users AS U
+    WHERE (U.Userid LIKE Concat('%',dato,'%'));
+    
+CREATE PROCEDURE deleteUser (dato int)
+	DELETE FROM Users
+    WHERE Userid = dato AND Userid > 0;
+    
+
+
+
+
+
+
+
+
+
 
 -- Revisa si existe el artista. Si no existe lo crea
 DELIMITER //
