@@ -2,29 +2,6 @@ CREATE DATABASE Odyssey;
 
 USE Odyssey;
 
-CREATE TABLE artista (
-	id_artista INT NOT NULL AUTO_INCREMENT,
-	nombre_artista VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_artista)
-);
-
-CREATE TABLE album (
-	id_album INT NOT NULL AUTO_INCREMENT,
-	id_artista INT NOT NULL,
-	nombre_album VARCHAR(50),
-	imagen VARCHAR(100),
-    PRIMARY KEY (id_album),
-    FOREIGN KEY (id_artista) REFERENCES artista(id_artista)
-);
-
-CREATE TABLE cancion (
-	id_album INT NOT NULL,
-	nombre_cancion VARCHAR(50) NOT NULL,
-	letra VARCHAR(500),
-    PRIMARY KEY (id_album, nombre_cancion),
-    FOREIGN KEY (id_album) REFERENCES album(id_album)
-);
-
 create table MusicData(
 trackid int,
 title varchar(60),
@@ -54,6 +31,12 @@ CREATE PROCEDURE GetCancion (dato varchar(50))
 CREATE PROCEDURE deleteSong (dato varchar(50))
 	DELETE FROM MusicData
     WHERE title = dato AND trackid > 0;
+    
+    
+    
+    
+    
+    
 
 -- Revisa si existe el artista. Si no existe lo crea
 DELIMITER //
