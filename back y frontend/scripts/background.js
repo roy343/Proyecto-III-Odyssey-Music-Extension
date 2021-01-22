@@ -5,11 +5,11 @@ var suggestions = [];
  * @param {*} data Songs received from the server
  * @param {number} CANT_SUGGESTS  Number of songs to be shown
  */
-function suggestionList(data, CANT_SUGGESTS) {
+function suggestionList(text, data, CANT_SUGGESTS) {
     var list = [];
     for (i = 0; i < CANT_SUGGESTS; i++) {
         var object = {
-            content: data[i].trackid,
+            content: text,
             description: suggestionListAux(data[i])
         };
         list.push(object);
@@ -23,8 +23,8 @@ function suggestionList(data, CANT_SUGGESTS) {
  * @param {object} data 
  */
 function suggestionListAux(data) {
-    let SongName = "Song: " + data.title;
-    let ArtistName = "     /     Artist: " + data.artist;
+    let SongName = "Song: " + data.nombre_cancion;
+    let ArtistName = "     /     Artist: " + data.nombre_artista;
     return SongName + ArtistName;
 }
 
@@ -51,16 +51,17 @@ chrome.omnibox.setDefaultSuggestion({
  */
 chrome.omnibox.onInputChanged.addListener(
     function(text, suggest) {
+        var apiCall = 'http://localhost:3000/songs/' + text;
         requestTime = new Date().getTime();
         if (text == "*ALL") {
+            apiCall = 'http://localhost:3000/songs';
             console.log("Getting all songs...");
         }
-        var apiCall = 'http://localhost:3000/songs';
         if (requestTime - lastRequest >= TIME_FOR_EACH_REQUEST) {
             lastRequest = requestTime;
             fetch(apiCall).then(function(res) {
                 // Check if the server is down
-                if (res.status !== 200) {
+                if (res.status != 200) {
                     suggest([
                         { content: "None", description: "Server is down" }
                     ])
@@ -69,18 +70,16 @@ chrome.omnibox.onInputChanged.addListener(
                 // Adds the suggestion
                 res.json().then(function(data) {
                     if (text == "*ALL") {
-                        list = suggestionList(data, ALL_SUGGEST);
+                        list = suggestionList(text, data[0], ALL_SUGGEST);
                     } else {
-                        apiCall = 'http://localhost:3000/songs/' + text;
-                        list = suggestionList(data, SUGGESTIONS_CUANTITY);
+                        list = suggestionList(text, data[0], SUGGESTIONS_CUANTITY);
+                        console.log(list);
                     }
                     suggest(list);
                 }).catch(function(err) {
                     suggest([{ content: 'Error', description: 'Problem loading server information...' }]);
                 })
             });
-        } else {
-            suggest(suggestions);
         }
         console.log(text);
     }
