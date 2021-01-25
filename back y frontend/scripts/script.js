@@ -14,7 +14,6 @@ function enableButtons(response) {
         document.getElementById('previousButton').disabled = false;
     }
 }
-
 /**
  * Sends message to background to get the next or previous song in the playlist
  * @param {string} song 
@@ -42,7 +41,7 @@ function playNextAux() {
 function playPreviousAux() {
     playSong("Previous Song")
 }
-
 document.getElementById('nextButton').addEventListener('click', playNextAux);
 document.getElementById('previousButton').addEventListener('click', playPreviousAux);
 playSong("Current Song");
+

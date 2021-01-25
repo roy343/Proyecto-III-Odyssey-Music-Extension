@@ -66,7 +66,6 @@ chrome.omnibox.onInputChanged.addListener(
                         { content: "None", description: "Server is down" }
                     ])
                 }
-
                 // Adds the suggestion
                 res.json().then(function(data) {
                     if (text == "*ALL") {

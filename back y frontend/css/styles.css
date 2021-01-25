@@ -1,7 +1,10 @@
 body,
 html {
-	background: rgb(2,0,36);
-	background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(58,121,9,1) 82%, rgba(104,255,0,1) 100%);  display: flex;
+    	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    	background: linear-gradient(120deg, #130f40, #4834d4, #8344ad);
+    	width: 400px;
+    	height: 200px;
+	background: linear-gradient(120deg, #130f40, #4834d4, #8344ad);
 	align-items: center;
 	justify-content: center;
 	min-height: 100%;
