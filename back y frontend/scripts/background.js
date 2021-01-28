@@ -6,6 +6,7 @@ var suggestions = [];
  * @param {number} CANT_SUGGESTS  Number of songs to be shown
  */
 function suggestionList(text, data, CANT_SUGGESTS) {
+    console.log(data);
     var list = [];
     for (i = 0; i < CANT_SUGGESTS; i++) {
         var object = {
@@ -72,10 +73,10 @@ chrome.omnibox.onInputChanged.addListener(
                         list = suggestionList(text, data[0], ALL_SUGGEST);
                     } else {
                         list = suggestionList(text, data[0], SUGGESTIONS_CUANTITY);
-                        console.log(list);
                     }
                     suggest(list);
                 }).catch(function(err) {
+                    console.log(err);
                     suggest([{ content: 'Error', description: 'Problem loading server information...' }]);
                 })
             });
