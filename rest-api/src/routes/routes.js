@@ -5,8 +5,10 @@ const mySQLConnection = require('../db')
 
 
 // Rutas para los usuarios
+
+//Ruta para obtener todos los usuarios
 router.get('/users', (req,res)=>{
-    mySQLConnection.query('SELECT * FROM persona',(err,rows,flieds) =>{
+    mySQLConnection.query('SELECT * FROM Users',(err,rows,flieds) =>{
         if(!err){
             res.json(rows);
         } else{
@@ -15,21 +17,22 @@ router.get('/users', (req,res)=>{
     })
 })
 
+// Ruta para obtener un usuario con su ID
 router.get('/users/:id', (req, res)=>{
     const { id } = req.params;
-    mySQLConnection.query('SELECT * FROM persona WHERE id = ?', [id], (err, rows, fields)=>{
+    mySQLConnection.query('SELECT * FROM Users WHERE Userid = ?', [id], (err, rows, fields)=>{
         if(!err){
             res.json(rows);
         } else{
             console.log(err);
-            console.log(id);
         }
     })
 });
 
+// Ruta para comprobar que un usuario existe usando su id
 router.get('/users/exists/:id', (req, res)=>{
     const { id } = req.params;
-    mySQLConnection.query('SELECT * FROM persona WHERE id = ?', [id], (err, rows, fields)=>{
+    mySQLConnection.query('SELECT * FROM Users WHERE Userid = ?', [id], (err, rows, fields)=>{
         if(!err){
             res.json('True');
         } else{
@@ -38,6 +41,8 @@ router.get('/users/exists/:id', (req, res)=>{
     })
 });
 
+
+// Ruta para crear un usuario
 router.post('/users', (req,res)=>{
     const {id, name} = req.body;
     const queryPost = `
@@ -53,9 +58,11 @@ router.post('/users', (req,res)=>{
     })
 });
 
+
+// Ruta para borrar un usuario por su ID
 router.delete('/users/:id', (req,res)=>{
     const { id } = req.params;
-    mySQLConnection.query('DELETE FROM persona WHERE id = ?',[id],(err, rows, fields)=>{
+    mySQLConnection.query('DELETE FROM Users WHERE Userid = ?',[id],(err, rows, fields)=>{
         if(!err){
             res.json({status: 'User deleted'});
         } else {
@@ -66,6 +73,9 @@ router.delete('/users/:id', (req,res)=>{
 
 
 //Rutas para las canciones
+
+
+// Rut para obtener las canciones
 
 router.get('/songs', (req,res)=>{
     const queryGetAll = `
@@ -80,15 +90,7 @@ router.get('/songs', (req,res)=>{
     })
 })
 
-// router.get('/songs', (req,res)=>{
-//     mySQLConnection.query('SELECT * FROM MusicData',(err,rows,flieds) =>{
-//         if(!err){
-//             res.json(rows);
-//         } else{
-//             console.log(err);
-//         }
-//     })
-// })
+//Ruta para borrar una cancion por su ID
 
 router.delete('/songs/:id', (req,res)=>{
     const { id } = req.params;
@@ -101,6 +103,7 @@ router.delete('/songs/:id', (req,res)=>{
     })
 })
 
+// Ruta para buscar una cancion
 
 router.get('/songs/:dato', (req, res)=>{
     const { dato } = req.params;
