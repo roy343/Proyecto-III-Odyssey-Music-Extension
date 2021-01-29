@@ -1,7 +1,7 @@
 var globalURL = 'http://localhost:3000';
 var userEmail;
 var userId = 1;
-var API_KEY = "AIzaSyBavevmSDeINyu57PksXgM1z6g4T4LW58E";
+var API_KEY = "[YOUR_API_KEY]";
 var YTApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&key=";
 var globalSongs;
 var request;
