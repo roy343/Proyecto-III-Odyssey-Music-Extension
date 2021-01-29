@@ -16,6 +16,11 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/2.PNG)
 
+* Si no es el caso, es posible que se necesite refrescar la ventana de schemas
+* Para cargar la base de datos de la música con las canciones, se debe dar click derecho en la tabla de MusicData en la ventana de schemas, ahi, debe seleccionarse la opción "Table Data Import Wizard". Esta ventana aparecerá:
+
+![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/3.PNG)
+
 
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
