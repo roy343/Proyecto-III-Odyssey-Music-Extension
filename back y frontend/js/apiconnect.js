@@ -1,9 +1,10 @@
 var globalURL = 'http://localhost:3000';
 var userEmail;
 var userId = 1;
-var API_KEY = "[YOUR_API_KEY]";
+var API_KEY = "AIzaSyBavevmSDeINyu57PksXgM1z6g4T4LW58E";
 var YTApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&key=";
 var globalSongs;
+var request;
 
 Start();
 
@@ -58,14 +59,11 @@ function musicSearch(search) {
             songId = item.id.videoId;
         })
     });
-    console.log(songId);
 }
 
 chrome.omnibox.onInputEntered.addListener(function(text) {
     var search = musicSearch(text);
-    if (search == null) {
-        console.log("no encontre");
-    }
+    search = "l482T0yNkeo";
 });
 
 chrome.omnibox.onInputChanged.addListener(async function(text, suggest) {
