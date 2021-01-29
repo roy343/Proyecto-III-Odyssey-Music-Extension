@@ -168,10 +168,8 @@ function musicSearch(search) {
  */
 chrome.omnibox.onInputEntered.addListener(function(text) {
     var search = musicSearch(text);
-    console.log(search);
-    console.log(songKey);
     for (elem of globalSongs) {
-        if (elem.nombre_cancion == text) {
+        if (elem.nombre_cancion + " " + elem.nombre_artista == text) {
             songKey = search;
             songName = elem.nombre_cancion;
             artistName = elem.nombre_artista;

@@ -50,10 +50,11 @@ function gotMessage(message) {
     console.log(message);
     if (message.intended == "popup") {
         if (message.action == "status") {
-            artist = message.artist;
+            artist = message.artista;
             songName = message.cancion;
             cover = message.cover;
             player = message.player;
+            album = message.album;
             fetchMusicDetails();
             volumeslider.setAttribute("value", message.volumen);
             Duration = message.videoLenght;
