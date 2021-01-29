@@ -18,7 +18,7 @@
     "omnibox": {
         "keyword": "@odyssey"
     },
-    "content_security_policy": "script-src 'self' https://www.youtube.com/iframe_api https://www.youtube.com/s/player/c6df6ed7/www-widgetapi.vflset/www-widgetapi.js https://code.jquery.com/jquery-3.5.1.min.js; object-src 'self'",
+    "content_security_policy": "script-src 'self' https://www.youtube.com/iframe_api https://www.youtube.com/s/player/7bc032d0/www-widgetapi.vflset/www-widgetapi.js https://code.jquery.com/jquery-3.5.1.min.js; object-src 'self'",
 
     "content_scripts": [{
         "js": ["js/jquery-3.5.1.min.js"],
