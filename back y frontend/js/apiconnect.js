@@ -150,7 +150,6 @@ async function getAllSoundtracks() {
 function musicSearch(search) {
     $.get(YTApi + API_KEY + "&q=" + search, function(data) {
         var counter = 0;
-        console.log(data.items[0].id.videoId);
         data.items.forEach(item => {
             if (counter == 0) {
                 songKey = item.id.videoId;
@@ -239,18 +238,19 @@ function playNext() {
                 i++
             }
         }
+        console.log(request[i + 1]);
         if (i < request.length - 1) {
             getSongData(request[i + 1]);
-            player.loadVideoById(request[i + 1].songKey);
+            player.loadVideoById(songKey);
             isPlaying = true;
         } else {
             getSongData(request[i]);
-            player.loadVideoById(request[i].songKey);
+            player.loadVideoById(songKey);
             isPlaying = true;
         }
     } else {
         getSongData(request[i]);
-        player.loadVideoById(request[i].songKey);
+        player.loadVideoById(songKey);
         isPlaying = true;
     }
 }
@@ -263,24 +263,27 @@ function playPrevious() {
         var i = 0;
         for (element of request) {
             if (element.nombre_cancion == songName) {
+                console.log("encontre antes");
                 break;
             } else {
                 i++
             }
         }
-        console.log(i);
+        console.log(request[i - 1]);
         if (i < request.length - 1) {
             getSongData(request[i - 1]);
-            player.loadVideoById(request[i - 1].songKey);
+            console.log(songKey);
+            player.loadVideoById(songKey);
             isPlaying = true;
         } else {
             getSongData(request[i]);
-            player.loadVideoById(request[i].songKey);
+            player.loadVideoById(songKey);
             isPlaying = true;
         }
     } else {
         getSongData(request[i]);
-        player.loadVideoById(request[i].songKey);
+        console.log(songKey);
+        player.loadVideoById(songKey);
         isPlaying = true;
     }
 }
@@ -290,8 +293,10 @@ function playPrevious() {
  * @param {Object} song Song's information in JSON format
  */
 function getSongData(song) {
-    songKey = musicSearch(song.nombre_cancion + " " + song.nombre_artista);
-    songName = song.nombre_cancion;
-    artistName = song.nombre_artista;
-    albumName = song.nombre_album;
+    musicSearch(song.nombre_cancion + " " + song.nombre_artista);
+    setTimeout(function() {
+        songName = song.nombre_cancion;
+        artistName = song.nombre_artista;
+        albumName = song.nombre_album;
+    }, 2000)
 }
