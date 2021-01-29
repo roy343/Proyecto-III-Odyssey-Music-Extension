@@ -6,7 +6,11 @@ Proyecto III del curso de Algortimos y bases de datos
 # Configuración de entorno
 ## Base de Datos
 * Instalar MySQL
-* Ejecutar el Query de Odyssey en MySQL  WorkBench
+* Para incializar la base de datos, se debe resaltar la parte del script en MySQL workbench que se desea ejecutar. Para crear la base de datos, seleccionamos lo siguiente:
+
+(imagen 1)
+
+* 
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
 ![image](https://github.com/Daval03/Project-OdisseyRadio/blob/main/Resorces/Captura%20de%20pantalla%20de%202021-01-29%2016-34-10.png)
