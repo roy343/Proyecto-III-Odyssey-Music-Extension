@@ -32,7 +32,15 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/5.PNG)}
 
+* Se debe revisar que los nombres de las columnas coincidan, si es el caso, se da click a next. Aparecerá esta ventana:
 
+![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/6.PNG)
+
+* Se presiona next para iniciar el proceso de escritura de datos
+* Si todo salió correctamente, MusicData debería tener los datos listos. Para revisar si es el caso, debe resaltarse y ejecutarse en el script la línea "Select * from MusicData"
+* Si todo funcionó, ésto aparecerá como resultado:
+
+![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/7.PNG)
 
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
