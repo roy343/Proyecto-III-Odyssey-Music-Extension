@@ -10,7 +10,13 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/1.PNG)
 
-* 
+* Seguidamente se repite el proceso de resaltar y ejecutar para "USE Odyssey"
+* Se repite el proceso, esta vez sin embargo se resalta el "create table" y todo su contenido hasta el punto y coma. Son 2 tablas asi que se debe hacer esto con ambas (MusicData y Users)
+* Si todo sale correctamente, debería aparecer lo siguiente en workbench:
+
+![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/2.PNG)
+
+
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
 ![image](https://github.com/Daval03/Project-OdisseyRadio/blob/main/Resorces/Captura%20de%20pantalla%20de%202021-01-29%2016-34-10.png)
