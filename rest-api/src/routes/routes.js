@@ -33,22 +33,37 @@ router.get('/users/:id', (req, res)=>{
 router.get('/users/exists/:id', (req, res)=>{
     const { id } = req.params;
     mySQLConnection.query('SELECT * FROM Users WHERE Userid = ?', [id], (err, rows, fields)=>{
-        if(!err){
-            res.json('True');
+        if(rows != []){
+            console.log(rows);
+            res.json(rows);
         } else{
-            res.json('False');
+            res.json('True');
+        }
+    })
+});
+
+// Ruta para comprobar que un usuario existe usando su correo
+router.get('/checkmail/:mail', (req, res)=>{
+    const { mail } = req.params;
+    mySQLConnection.query('SELECT * FROM Users WHERE UserEmail = ?', [mail], (err, rows, fields)=>{
+        if(rows = []){
+            res.json(rows);
+            console.log(mail);
+        } else{
+            res.json('True');
         }
     })
 });
 
 
+
 // Ruta para crear un usuario
 router.post('/users', (req,res)=>{
-    const {id, name} = req.body;
+    const {id, name, mail, role} = req.body;
     const queryPost = `
-        CALL personaAddOrEdit(?, ?);
+    CALL createUser (?, ?, ?, ?);
     `;
-    mySQLConnection.query(queryPost, [id,name], (err,rows,fields) =>{
+    mySQLConnection.query(queryPost, [id,name,mail,role], (err,rows,fields) =>{
         if(!err){
             res.json({Status: 'Persona agregada'});
         } else{
