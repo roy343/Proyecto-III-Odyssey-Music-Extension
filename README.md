@@ -27,7 +27,12 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/4.PNG)
 
-* 
+* Se da click a "next"
+* Esta ventana aparecerá:
+
+![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/5.PNG)}
+
+
 
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
