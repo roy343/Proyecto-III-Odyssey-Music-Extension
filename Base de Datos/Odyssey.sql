@@ -65,3 +65,6 @@ CREATE PROCEDURE beUser (dato int)
 	UPDATE Users
 	SET UserRole='User'
 	WHERE Userid = dato;
+    
+CREATE PROCEDURE createUser (dato int, uname varchar(60), umail varchar (60), urole varchar (10))
+	insert into Users values (dato,uname,umail,urole);
