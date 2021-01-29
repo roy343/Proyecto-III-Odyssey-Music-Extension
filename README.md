@@ -5,7 +5,7 @@ Proyecto III del curso de Algortimos y bases de datos
 
 # Configuración de entorno
 ## Base de Datos
-* Instalar MySQL
+* Se debe instalar MySql y MySql workbench antes de poder crear la base de datos
 * Para incializar la base de datos, se debe resaltar la parte del script en MySQL workbench que se desea ejecutar. Para crear la base de datos, seleccionamos lo siguiente:
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/1.PNG)
