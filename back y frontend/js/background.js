@@ -1,8 +1,10 @@
+// Background variables
 console.log("Background has been initiated");
 var testThread;
 let message;
 let isPlaying = false;
 
+// Creates the music player
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -11,10 +13,17 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var songId = 'RtuaLaMFZSI';
 
+/**
+ * Sends a message using chrome's API
+ * @param {Object} message 
+ */
 function SendMessage(message) {
     chrome.runtime.sendMessage(message);
 }
 
+/**
+ * Creates a YouTube embeded visualizer
+ */
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: songId,
@@ -26,10 +35,17 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
+/**
+ * Checks if the videoplayer is ready to be used
+ * @param {Object} event 
+ */
 function onPlayerReady(event) {
     console.log("player listo");
 }
 
+/**
+ * Sends video's progress updates 
+ */
 function OnPlay() {
     message = {
         intended: "popup",
@@ -40,6 +56,10 @@ function OnPlay() {
     SendMessage(message);
 }
 
+/**
+ * Listener of the YouTube player when it changes from any state to another
+ * @param {Object} event Event sended it from the app
+ */
 function onPlayerStateChange(event) {
     if (event.data == 1) {
         testThread = setInterval(OnPlay, 500);
@@ -51,6 +71,11 @@ function onPlayerStateChange(event) {
     }
 }
 
+/**
+ * Chrome's API function
+ * According to the action, makes media changes or sends information to the App
+ * @param {Object} message Message that indicates the action to be made
+ */
 chrome.runtime.onMessage.addListener(function(message) {
     console.log(message);
     if (message.intended === 'player') {
@@ -74,6 +99,9 @@ chrome.runtime.onMessage.addListener(function(message) {
     }
 })
 
+/**
+ * Sends the information need it to be visualized in the App
+ */
 function SendStatus() {
     message = {
         intended: "popup",
