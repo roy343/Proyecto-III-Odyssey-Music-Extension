@@ -1,4 +1,4 @@
-// users' variables
+// user's variables
 var userEmail;
 var userId = 1;
 
@@ -22,11 +22,20 @@ var canUseApp = false;
 
 Start();
 
+/**
+ * Get user's email that is logged in chrome
+ */
 chrome.identity.getProfileUserInfo(function(userInfo) {
     userEmail = userInfo.email;
     // Auth(userEmail);     AGREGAR HASTA QUE ESTE LA TABLA
 });
 
+/**
+ * Checks if the user exists on the database
+ * @async
+ * @param {string} pEmail 
+ * @returns {Promise} Returns server response
+ */
 async function CheckUser(pEmail) {
     var path = `/users/exists/${pEmail}`;
     const response = await fetch(globalURL + path);
@@ -35,6 +44,10 @@ async function CheckUser(pEmail) {
     return data;
 }
 
+/**
+ * If the user exists, allows them to use the app. If not, add them
+ * @param {string} pEmail User's email
+ */
 async function Auth(pEmail) {
     if (userEmail != "") {
         var isThere = await CheckUser(pEmail);
@@ -53,6 +66,10 @@ async function Auth(pEmail) {
     }
 }
 
+/**
+ * POST function to add a new user in the data base
+ * @param {string} pEmail - User's email
+ */
 function PostData(pEmail) {
     var path = `/users`;
     fetch(globalURL + path, {
@@ -68,12 +85,22 @@ function PostData(pEmail) {
         })
 }
 
+/**
+ * Request the songs at the start of the application
+ * @async
+ */
 async function Start() {
     var temp = await getAllSoundtracks();
     temp = globalSongs;
     request = temp;
 }
 
+/**
+ * Gets a list of songs acording with a the given input
+ * @async
+ * @param {*} req User's input
+ * @returns {Promise} Json with the song's info
+ */
 async function getSoundtracks(req) {
     var path = `/songs/${req}`;
     var response = await fetch(globalURL + path, {
@@ -92,6 +119,11 @@ async function getSoundtracks(req) {
     globalSongs = response[0];
 }
 
+/**
+ * Gets a list of all the songs in the database
+ * @async
+ * @returns {Promise} Json with the song's info
+ */
 async function getAllSoundtracks() {
     var path = '/songs';
     var response = await fetch(globalURL + path, {
@@ -110,6 +142,11 @@ async function getAllSoundtracks() {
     globalSongs = response[0];
 }
 
+/**
+ * Makes a request to the YouTube Search List API
+ * @param {string} search 
+ * @returns {videoId} Song's id to be played
+ */
 function musicSearch(search) {
     $.get(YTApi + API_KEY + "&q=" + search, function(data) {
         var counter = 0;
@@ -126,6 +163,9 @@ function musicSearch(search) {
     });
 }
 
+/**
+ * Activates when the user hits enter
+ */
 chrome.omnibox.onInputEntered.addListener(function(text) {
     var search = musicSearch(text);
     console.log(search);
@@ -146,6 +186,10 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
     }, 2000);
 });
 
+/**
+ * Activates everytime the user writes something in the omnibox
+ * @returns A list of suggestions acording to the user input
+ */
 chrome.omnibox.onInputChanged.addListener(async function(text, suggest) {
     if (text != "*ALL") {
         await getSoundtracks(text);
@@ -168,6 +212,11 @@ chrome.omnibox.onInputChanged.addListener(async function(text, suggest) {
     }
 });
 
+/**
+ * Chrome's API's function that recieve messages.
+ * Gives an action to the application to do.
+ * @param {object} mesgsage The message with the action
+ */
 chrome.runtime.onMessage.addListener(function(message) {
     console.log(message);
     if (message.intended === 'API') {
@@ -179,6 +228,9 @@ chrome.runtime.onMessage.addListener(function(message) {
     }
 })
 
+/**
+ * Gets next song to be played
+ */
 function playNext() {
     if (songName != -1) {
         var i = 0;
@@ -205,6 +257,9 @@ function playNext() {
     }
 }
 
+/**
+ * Gets previous song to be played
+ */
 function playPrevious() {
     if (songName != -1) {
         var i = 0;
@@ -232,6 +287,10 @@ function playPrevious() {
     }
 }
 
+/**
+ * Gets song's data according to the database
+ * @param {Object} song Song's information in JSON format
+ */
 function getSongData(song) {
     songKey = musicSearch(song.nombre_cancion + " " + song.nombre_artista);
     songName = song.nombre_cancion;
