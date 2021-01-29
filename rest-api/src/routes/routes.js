@@ -3,10 +3,14 @@ const router = express.Router();
 const mySQLConnection = require('../db')
 
 
-
 // Rutas para los usuarios
 
-//Ruta para obtener todos los usuarios
+   /**
+     * Obtiene todos los usuarios registrados
+     * 
+     * @return Una lista con todos los usuarios registrados en la base de datos
+     */
+
 router.get('/users', (req,res)=>{
     mySQLConnection.query('SELECT * FROM Users',(err,rows,flieds) =>{
         if(!err){
@@ -16,6 +20,12 @@ router.get('/users', (req,res)=>{
         }
     })
 })
+
+   /**
+     * Obtiene un usuario usando el id
+     * @param int id del usuario
+     * @return Retorna todos los datos del usuario
+     */
 
 // Ruta para obtener un usuario con su ID
 router.get('/users/:id', (req, res)=>{
@@ -28,6 +38,12 @@ router.get('/users/:id', (req, res)=>{
         }
     })
 });
+
+   /**
+     * Comprueba si el usuario existe usando la id del usuario
+     * @param int id del usuario 
+     * @return Obejto JSON 
+     */
 
 // Ruta para comprobar que un usuario existe usando su id
 router.get('/users/exists/:id', (req, res)=>{
@@ -42,22 +58,30 @@ router.get('/users/exists/:id', (req, res)=>{
     })
 });
 
-// Ruta para comprobar que un usuario existe usando su correo
-router.get('/checkmail/:mail', (req, res)=>{
-    const { mail } = req.params;
-    mySQLConnection.query('SELECT * FROM Users WHERE UserEmail = ?', [mail], (err, rows, fields)=>{
-        if(rows = []){
-            res.json(rows);
-            console.log(mail);
-        } else{
-            res.json('True');
-        }
+   /**
+     * Comprueba si el usuario existe usando el correo del usuario
+     * @param String correo del usuario que se desea buscar
+     * @return Obejto JSON 
+     */
+
+router.get('/checkmail/:id', (req, res)=>{
+    const { id } = req.params;
+    mySQLConnection.query('SELECT * FROM Users WHERE UserEmail = ?', [id], (err, rows, fields)=>{
+        res.json(rows);
     })
 });
 
 
-
-// Ruta para crear un usuario
+   /**
+     * Comprueba si el usuario existe
+     * @param int id del usuario 
+     * @param String nombre del usuario
+     * @param String correo del usuario
+     * @param String rol del usuario
+     * 
+     * @return Obejeto JSON 
+     */
+    
 router.post('/users', (req,res)=>{
     const {id, name, mail, role} = req.body;
     const queryPost = `
@@ -73,8 +97,15 @@ router.post('/users', (req,res)=>{
     })
 });
 
+   /**
+     * Borra a un usuario usando el id
+     * @param int id del usuario que se desea borrar
+     * 
+     * @return Mensaje de verificacion de que se borro el usuario
+     */
 
-// Ruta para borrar un usuario por su ID
+
+
 router.delete('/users/:id', (req,res)=>{
     const { id } = req.params;
     mySQLConnection.query('DELETE FROM Users WHERE Userid = ?',[id],(err, rows, fields)=>{
@@ -90,7 +121,11 @@ router.delete('/users/:id', (req,res)=>{
 //Rutas para las canciones
 
 
-// Rut para obtener las canciones
+   /**
+     * Ruta para obtener todas las canciones en la base de datos
+     * 
+     * @return Objeto JSON con todas las canciones almacenadas en la base de datos
+     */
 
 router.get('/songs', (req,res)=>{
     const queryGetAll = `
@@ -105,7 +140,12 @@ router.get('/songs', (req,res)=>{
     })
 })
 
-//Ruta para borrar una cancion por su ID
+   /**
+     * Borra a una cancion usando el id
+     * @param int id de la cancion que se necesite borrar 
+     * 
+     * @return Mensaje de verificacion de que se borro el usuario
+     */
 
 router.delete('/songs/:id', (req,res)=>{
     const { id } = req.params;
@@ -118,7 +158,12 @@ router.delete('/songs/:id', (req,res)=>{
     })
 })
 
-// Ruta para buscar una cancion
+   /**
+     * Busca una cancion en la base de datos 
+     * @param String datos que se quiera realizar para hacer la busqueda  
+     * 
+     * @return Todos los resultados que coincidan con los datos
+     */
 
 router.get('/songs/:dato', (req, res)=>{
     const { dato } = req.params;
