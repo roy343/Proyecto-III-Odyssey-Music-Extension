@@ -21,6 +21,13 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/3.PNG)
 
+* Se selecciona la opción "Browse" y se elige el archivo "MetaDataCsv", el cual se encuentra en la carpeta "Base de Datos" del proyecto.
+* Una vez seleccionado se selecciona "next"
+* Esta ventana aparecerá:
+
+![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/4.PNG)
+
+* 
 
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
