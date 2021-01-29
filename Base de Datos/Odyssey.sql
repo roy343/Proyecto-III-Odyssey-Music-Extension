@@ -4,11 +4,9 @@ USE Odyssey;
 
 create table MusicData(
 trackid int,
-title varchar(60),
-artist varchar(30),
-album varchar(20),
-genre varchar(60),
-lenght varchar(10) 
+nombre_cancion varchar(60),
+nombre_artista varchar(30),
+nombre_album varchar(20)
 );
 
 Select * from MusicData;
@@ -24,23 +22,23 @@ Select * from Users;
 
 -- Obtiene todas las canciones (Nombre, Album, Artista)
 CREATE PROCEDURE GetAll()
-	SELECT M.trackid, M.title, M.artist, M.album, M.genre, M.lenght
+	SELECT M.trackid, M.nombre_cancion, M.nombre_artista, M.nombre_album
     FROM MusicData AS M;
     
     -- WHERE M.id_album = A.id_album AND A.id_artista = Ar.id_artista;
 
 -- Obtiene informacion segun el dato ingresado (Revisa Nombre Cancion, Artista y Album)
 CREATE PROCEDURE GetCancion (dato varchar(50))
-	SELECT M.title, M.album, M.artist
+	SELECT M.nombre_cancion, M.nombre_album, M.nombre_artista
     FROM MusicData AS M
-    WHERE (M.title LIKE Concat('%',dato,'%') OR 
-    M.artist LIKE Concat('%',dato,'%') OR
-    M.album LIKE Concat('%',dato,'%'));
+    WHERE (M.nombre_cancion LIKE Concat('%',dato,'%') OR 
+    M.nombre_artista LIKE Concat('%',dato,'%') OR
+    M.nombre_album LIKE Concat('%',dato,'%'));
 
 -- Elimina una cancion segun la data ingresada
 CREATE PROCEDURE deleteSong (dato varchar(50))
 	DELETE FROM MusicData
-    WHERE title = dato AND trackid > 0;
+    WHERE nombre_cancion = dato AND trackid > 0;
     
     
 CREATE PROCEDURE GetUsers()
