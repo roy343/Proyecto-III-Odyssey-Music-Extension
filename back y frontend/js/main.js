@@ -1,8 +1,10 @@
+// Medialplaver variables
 let playbtn, mutebtn, seekslider, volumeslider, seeking = false,
     seekto, curtimetext, durtimetext, repeat, randomSong;
 
 var CurrentTime, Duration, playlist_status, playlist_album, artist, songName, album, cover, poster, player;
 
+// Object references
 playbtn = document.getElementById("playpausebtn");
 nextbtn = document.getElementById("nextbtn");
 prevbtn = document.getElementById("prevbtn");
@@ -18,17 +20,32 @@ randomSong = document.getElementById("random");
 poster = document.getElementById("image");
 bgImage = document.getElementById("bgImage");
 
+/**
+ * Message object
+ */
 let message = {
     intended: 'player',
     txt: 'Hello from the other side'
 }
 
+/**
+ * Sends a JSON message
+ * @param {Object} message Action to be made
+ */
 function SendMessage(message) {
     chrome.runtime.sendMessage(message);
 }
 
+/**
+ * Chrome API's function
+ * Updates App's information
+ */
 chrome.runtime.onMessage.addListener(gotMessage);
 
+/**
+ * Function that allows the app to make different actions according to the action
+ * @param {Object} message 
+ */
 function gotMessage(message) {
     console.log(message);
     if (message.intended == "popup") {
@@ -64,6 +81,9 @@ function gotMessage(message) {
 
 SendMessage(message);
 
+/**
+ * Updates the song information
+ */
 function fetchMusicDetails() {
     playlist_status.innerHTML = artist + " - " + songName;
     playlist_album.innerHTML = album;
@@ -71,6 +91,7 @@ function fetchMusicDetails() {
     bgImage.setAttribute("src", cover);
 }
 
+// Event handelers
 playbtn.addEventListener("click", playPause);
 nextbtn.addEventListener("click", nextSong);
 prevbtn.addEventListener("click", prevSong);
@@ -83,6 +104,10 @@ seekslider.addEventListener("mousemove", function(event) { seek(event); });
 seekslider.addEventListener("mouseup", function() { seeking = false; });
 volumeslider.addEventListener("mousemove", setVolume);
 
+/**
+ * Tells the app to stop or resume the music
+ * @param {event} element Action to be made
+ */
 function playPause(element) {
     if (playbtn.value == "play") {
         playbtn.setAttribute("value", "pause");
@@ -103,6 +128,9 @@ function playPause(element) {
     }
 }
 
+/**
+ * Asks for the next song
+ */
 function nextSong() {
     message = {
         intended: "API",
@@ -112,6 +140,9 @@ function nextSong() {
     fetchMusicDetails();
 }
 
+/**
+ * Asks for the previous song
+ */
 function prevSong() {
     message = {
         intended: "API",
@@ -121,6 +152,10 @@ function prevSong() {
     fetchMusicDetails();
 }
 
+/**
+ * Function that mutes the Audio
+ * Also, changes the icon
+ */
 function mute() {
     if (mutebtn.value == "muted") {
         mutebtn.setAttribute("value", "unmuted");
@@ -141,6 +176,10 @@ function mute() {
     }
 }
 
+/**
+ * Ask the player to advance to a certain point
+ * @param {event} event Position of the slider
+ */
 function seek(event) {
     if (Duration == 0) {
         null;
@@ -158,6 +197,9 @@ function seek(event) {
     }
 }
 
+/**
+ * Ask the player to change the volume
+ */
 function setVolume() {
     message = {
         intended: 'player',
@@ -167,6 +209,9 @@ function setVolume() {
     SendMessage(message);
 }
 
+/**
+ * Updates the current and the duration time of the song
+ */
 function seekTimeUpdate() {
     if (Duration) {
         let nt = CurrentTime * (100 / Duration);
