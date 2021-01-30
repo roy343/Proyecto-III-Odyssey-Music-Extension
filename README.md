@@ -17,30 +17,7 @@ Proyecto III del curso de Algortimos y bases de datos
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/2.PNG)
 
 * Si no es el caso, es posible que se necesite refrescar la ventana de schemas
-* Para cargar la base de datos de la música con las canciones, se debe dar click derecho en la tabla de MusicData en la ventana de schemas, ahi, debe seleccionarse la opción "Table Data Import Wizard". Esta ventana aparecerá:
-
-![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/3.PNG)
-
-* Se selecciona la opción "Browse" y se elige el archivo "MetaDataCsv", el cual se encuentra en la carpeta "Base de Datos" del proyecto.
-* Una vez seleccionado se selecciona "next"
-* Esta ventana aparecerá:
-
-![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/4.PNG)
-
-* Se da click a "next"
-* Esta ventana aparecerá:
-
-![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/5.PNG)}
-
-* Se debe revisar que los nombres de las columnas coincidan, si es el caso, se da click a next. Aparecerá esta ventana:
-
-![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/6.PNG)
-
-* Se presiona next para iniciar el proceso de escritura de datos
-* Si todo salió correctamente, MusicData debería tener los datos listos. Para revisar si es el caso, debe resaltarse y ejecutarse en el script la línea "Select * from MusicData"
-* Si todo funcionó, ésto aparecerá como resultado:
-
-![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/7.PNG)
+* Para cargar la base de datos se realiza desde la interfaz
 
 * Finalmente, para dejar la base de datos lista para usarse, se resalta todo el codigo relacionado a "Create procedures" y se ejecuta. Esto permitirá al API utilizar estos procedures
 
@@ -65,6 +42,8 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ## Background
 Cambiar la línea de código numero 7 en el archivo `apiconnect.js`, la sección `[YOUR API KEY]`, inserte su llave de Google Cloud de API con la autorización para utilizar la API de YouTube para poder buscar las canciones.
+
+Asimismo, con la línea 11 del mismo archivo, inserte su llave API de Last fm para poder realizar búsquedas de las canciones.
 
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
