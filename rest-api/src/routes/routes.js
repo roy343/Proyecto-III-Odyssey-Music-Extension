@@ -83,11 +83,11 @@ router.get('/checkmail/:id', (req, res) => {
  */
 
 router.post('/users', (req, res) => {
-    const { id, name, mail, role } = req.body;
+    const { Userid, UserEmail, UserRole } = req.body;
     const queryPost = `
-    CALL createUser (?, ?, ?, ?);
+    CALL AddUser (?, ?, ?);
     `;
-    mySQLConnection.query(queryPost, [id, name, mail, role], (err, rows, fields) => {
+    mySQLConnection.query(queryPost, [Userid, UserEmail, UserRole], (err, rows, fields) => {
         if (!err) {
             res.json({ Status: 'Persona agregada' });
         } else {

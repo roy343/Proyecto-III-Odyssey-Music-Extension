@@ -32,7 +32,7 @@ Start();
  */
 chrome.identity.getProfileUserInfo(function(userInfo) {
     userEmail = userInfo.email;
-    // Auth(userEmail);     AGREGAR HASTA QUE ESTE LA TABLA
+    Auth(userEmail);
 });
 
 /**
@@ -42,7 +42,7 @@ chrome.identity.getProfileUserInfo(function(userInfo) {
  * @returns {Promise} Returns server response
  */
 async function CheckUser(pEmail) {
-    var path = `/users/exists/${pEmail}`;
+    var path = `/checkmail/${pEmail}`;
     const response = await fetch(globalURL + path);
     const data = response.json();
     console.log(data);
@@ -56,16 +56,15 @@ async function CheckUser(pEmail) {
 async function Auth(pEmail) {
     if (userEmail != "") {
         var isThere = await CheckUser(pEmail);
-        if (isThere.exist != true) {
+        if (isThere.length == 0) {
             PostData(userEmail);
-            isThere = await CheckUser(userEmail);
-            userId = isThere.body[0]; // Agregar atributo id usuario
-            console.log(userId);
+            isThere = await CheckUser(pEmail);
+            userId = isThere[0].Userid
         } else {
-            userId = isThere.body[0]; // Agregar atributo id usuario
-            console.log(userId);
+            userId = isThere[0].Userid
         }
-        canUseApp = true;
+        console.log(userId),
+            canUseApp = true;
     } else {
         console.log("User not logged in Chrome");
     }
@@ -76,13 +75,14 @@ async function Auth(pEmail) {
  * @param {string} pEmail - User's email
  */
 function PostData(pEmail) {
+    console.log(pEmail);
     var path = `/users`;
     fetch(globalURL + path, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: pEmail })
+            body: JSON.stringify({ "Userid": "0", "UserEmail": pEmail, "UserRole": "user" })
         })
         .then((response) => response.json())
         .then(data => {
@@ -135,7 +135,6 @@ async function getAllSoundtracks() {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
-                // 'usuario': userId
             }
         })
         .then(response => response.json())
