@@ -12,10 +12,10 @@ nombre_album varchar(20)
 Select * from MusicData;
 
 create table Users(
-Userid int,
-UserName varchar(60),
+Userid int auto_increment,
 UserEmail varchar(60),
-UserRole varchar(10) DEFAULT 'User'
+UserRole varchar(10) DEFAULT 'User',
+primary key (Userid)
 );
 
 Select * from Users;
