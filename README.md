@@ -63,6 +63,9 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://user-images.githubusercontent.com/28927252/106340999-3f670d00-6261-11eb-8686-56f5ed87657d.png)
 
+## Background
+Cambiar la línea de código numero 7 en el archivo `apiconnect.js`, la sección `[YOUR API KEY]`, inserte su llave de Google Cloud de API con la autorización para utilizar la API de YouTube para poder buscar las canciones.
+
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
 ![image](https://github.com/Daval03/Project-OdisseyRadio/blob/main/Resorces/Captura%20de%20pantalla%20de%202021-01-29%2016-34-10.png)
