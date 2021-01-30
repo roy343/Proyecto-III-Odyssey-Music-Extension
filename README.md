@@ -42,6 +42,8 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/7.PNG)
 
+* Finalmente, para dejar la base de datos lista para usarse, se resalta todo el codigo relacionado a "Create procedures" y se ejecuta. Esto permitirá al API utilizar estos procedures
+
 ## Servidor
 
 * Para poder ejecutar el servidor es necesario descargar e instalar node.js y se recomienda usar Visual Studio Code.
