@@ -7,6 +7,11 @@ var globalURL = 'http://localhost:3000';
 var API_KEY = "[YOUR_API_KEY]";
 var YTApi = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&key=";
 
+// Last.fm API's variables
+var LFMAPI_KEY = "[YOUR_API_KEY]";
+var LFMAPI_ALBUM = "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&limit=10&artist=";
+var LFMAPI_TRACK = "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key="
+
 // Song's variables
 var globalSongs;
 var songKey = " ";
@@ -163,24 +168,58 @@ function musicSearch(search) {
 }
 
 /**
+ * Search album and its tracks to be put in the data base
+ * @param {string} search 
+ */
+function albumSearch(search) {
+    path = '/songs/';
+    path = '/songs/';
+    $.get(LFMAPI_ALBUM + search + "&api_key=" + LFMAPI_KEY + "&format=json", function(data) {
+        data.topalbums.album.forEach(item => {
+            $.get(LFMAPI_TRACK + LFMAPI_KEY + "&artist=" + search + "&album=" + item.name + "&format=json", function(dataAlbum) {
+                dataAlbum.album.tracks.track.forEach(song => {
+                    setTimeout(function() {
+                        fetch(globalURL + path, {
+                                method: 'POST',
+                                headers: {
+                                    'content-type': 'application/json'
+                                },
+                                body: JSON.stringify({ "trackid": "0", "nombre_cancion": song.name, "nombre_artista": search, "nombre_album": item.name })
+                            })
+                            .then((response) => response.json())
+                            .then(data => {
+                                console.log(data);
+                            });
+                    }, 100);
+                });
+            });
+        });
+    });
+}
+
+/**
  * Activates when the user hits enter
  */
 chrome.omnibox.onInputEntered.addListener(function(text) {
-    var search = musicSearch(text);
-    for (elem of globalSongs) {
-        if (elem.nombre_cancion + " " + elem.nombre_artista == text) {
-            songKey = search;
-            songName = elem.nombre_cancion;
-            artistName = elem.nombre_artista;
-            albumName = elem.nombre_album;
-            break;
+    if (globalSongs.length != 0) {
+        var search = musicSearch(text);
+        for (elem of globalSongs) {
+            if (elem.nombre_cancion + " " + elem.nombre_artista == text) {
+                songKey = search;
+                songName = elem.nombre_cancion;
+                artistName = elem.nombre_artista;
+                albumName = elem.nombre_album;
+                break;
+            }
         }
+        setTimeout(function() {
+            player.loadVideoById(songKey);
+            player.playVideo();
+            isPlaying = true;
+        }, 2000);
+    } else {
+        albumSearch(text);
     }
-    setTimeout(function() {
-        player.loadVideoById(songKey);
-        player.playVideo();
-        isPlaying = true;
-    }, 2000);
 });
 
 /**
@@ -197,7 +236,7 @@ chrome.omnibox.onInputChanged.addListener(async function(text, suggest) {
         for (element of globalSongs) {
             suggest([{
                 content: element.nombre_cancion + " " + element.nombre_artista,
-                description: element.nombre_cancion + " - " + element.nombre_album,
+                description: element.nombre_cancion + " - " + element.nombre_artista,
                 deletable: true
             }]);
         }
