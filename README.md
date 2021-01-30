@@ -18,7 +18,8 @@ Proyecto III del curso de Algortimos y bases de datos
 
 * Si no es el caso, es posible que se necesite refrescar la ventana de schemas
 * Para cargar la base de datos se realiza desde la interfaz
-
+* Dar click derecho en Storage Procedures, Create Storage Procedures y copiar el contenido del archivo llamado `AddSong.sql`
+* Aplicar los cambios y esperar respuesta
 * Finalmente, para dejar la base de datos lista para usarse, se resalta todo el codigo relacionado a "Create procedures" y se ejecuta. Esto permitirá al API utilizar estos procedures
 
 ## Servidor
