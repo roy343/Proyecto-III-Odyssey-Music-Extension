@@ -42,6 +42,25 @@ Proyecto III del curso de Algortimos y bases de datos
 
 ![image](https://github.com/roy343/Proyecto-III-Odyssey-Music-Extension/blob/main/Wiki/7.PNG)
 
+## Servidor
+
+* Para poder ejecutar el servidor es necesario descargar e instalar node.js y se recomienda usar Visual Studio Code.
+* Una vez que tenga todo instalado es necesario abrir la carpeta del proyecto usando Visual Studio Code, esto se puede hacer seleccionando la carpeta del proyecto con click derecho y seleccionar "Abrir con Code".
+
+* Una vez que se habra VS code es necesario abrir una terminal que este ubicada en la carpeta "rest-api", para facilitar esto haga click derecho sobre la carpeta y seleccione "Open in Integrated Terminal"
+
+* Se le abrira una terminal ya ubicada en la carpeta donde se encuentra el codigo a ejecutar. Ahora es necesario instalar los modulos necesarios para correr el servidor. En al terminal que acaba de abrir corra el comando "npm i express mysql cors nodemon".
+
+![image](https://user-images.githubusercontent.com/28927252/106340681-3c1f5180-6260-11eb-81b5-c32f35ebb21e.png)
+
+* Una vez que se terminen de instalar todos los modulos ya se puede ejecutar el servidor, para esto es necesario correr el modulo "npm run dev".
+
+![image](https://user-images.githubusercontent.com/28927252/106340932-0890f700-6261-11eb-839b-fc12822dedf3.png)
+
+* Una vez que se ejecute el servidor le debera de aparecer un mensaje confirmando que el servidor esta corriendo.
+
+![image](https://user-images.githubusercontent.com/28927252/106340999-3f670d00-6261-11eb-8686-56f5ed87657d.png)
+
 ## Extencion de Chrome
 * Abrir Chrome y seleccionar la parte de "Extensiones" y "Administrar extensiones"
 ![image](https://github.com/Daval03/Project-OdisseyRadio/blob/main/Resorces/Captura%20de%20pantalla%20de%202021-01-29%2016-34-10.png)
